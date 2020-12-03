@@ -7,30 +7,8 @@ def takeInput(inputOptions, inputPrompt):
   	 valEntered = input(inputPrompt)
   return valEntered
 
-# ask who gets to have the first go, noughts or crosses
-firstGoOptions = ["0","X","r"]
-
-pickFirstGoPrompt = "Who goes first? (Enter {}, {} or {} for random): ".format("0","X","r")
-  
-toStart = takeInput(firstGoOptions, pickFirstGoPrompt)
-
-# make random choice of start player if required
-if toStart == "r":
-  toStart = random.choice(["X","0"])
-  print("Random choice: player \"{}\" starts.".format(toStart))
-
-currentTurn = toStart
-
-requestedSpace = input("Player {}, please enter a coordinate: ".format(currentTurn))
-
-if currentTurn == "X":
-  currentTurn = "0"
-else:
-  currentTurn = "X"
-
-print(currentTurn)
-
-output = """
+# set out blank playing board  
+blankBoard = """
       1       2       3
           |       |
 A         |       |    
@@ -45,7 +23,58 @@ C         |       |
           |       |
 """
 
-print(output)
+# define space addresses that exist on the board
+allSpaces = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
+
+# define the locations where we can later put text on the board
+spaceLocations = [51, 59, 67, 142, 150, 158, 233, 241, 249]
+#=====================================================
+
+# ask who gets to have the first go, noughts or crosses
+firstGoOptions = ["0","X","r"]
+
+pickFirstGoPrompt = "Who goes first? (Enter {}, {} or {} for random): ".format("0","X","r")
+  
+toStart = takeInput(firstGoOptions, pickFirstGoPrompt)
+
+# make random choice of start player if required
+if toStart == "r":
+  toStart = random.choice(["X","0"])
+  print("Random choice: player \"{}\" starts.".format(toStart))
+
+currentTurn = toStart
+
+print(blankBoard)
+
+requestSpacePrompt = "Player {}, please enter a coordinate: ".format(currentTurn)
+
+availableSpaces = allSpaces.copy() # weirdly, if you set list 2 = list 1, changes made to list 2 are reflected in list 1. Therefore use copy() to make a separate list.
+workingBoard = blankBoard
+
+requestedSpace = takeInput(availableSpaces, requestSpacePrompt)
+
+availableSpaces.remove(requestedSpace)
+
+#print(availableSpaces)
+#print(allSpaces)
+chosenSpaceIndex = allSpaces.index(requestedSpace)
+
+workingBoardList = list(workingBoard)
+workingBoardList[spaceLocations[chosenSpaceIndex]] = currentTurn
+workingBoard = "".join(workingBoardList)
+
+print(workingBoard)
+
+if currentTurn == "X":
+  currentTurn = "0"
+else:
+  currentTurn = "X"
+
+print(currentTurn)
+
+
+
+#====================================================3
 
 #for m in range(len(output)):
  # print(m, output[m])
