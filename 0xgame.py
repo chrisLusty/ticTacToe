@@ -46,31 +46,35 @@ currentTurn = toStart
 
 print(blankBoard)
 
-requestSpacePrompt = "Player {}, please enter a coordinate: ".format(currentTurn)
-
 availableSpaces = allSpaces.copy() # weirdly, if you set list 2 = list 1, changes made to list 2 are reflected in list 1. Therefore use copy() to make a separate list.
+
 workingBoard = blankBoard
 
-requestedSpace = takeInput(availableSpaces, requestSpacePrompt)
+for turns in range(9):
 
-availableSpaces.remove(requestedSpace)
+	requestSpacePrompt = "Player {}, please enter a coordinate: ".format(currentTurn)
+	
+	requestedSpace = takeInput(availableSpaces, requestSpacePrompt)
+	
+	availableSpaces.remove(requestedSpace)
+	
+	#print(availableSpaces)
+	#print(allSpaces)
+	chosenSpaceIndex = allSpaces.index(requestedSpace)
+	
+	# you can't change a character within an existing string in Python. To get round, convert string to list, switch out the list item to represent the player move, then convert back to a string.
+	workingBoardList = list(workingBoard)
+	workingBoardList[spaceLocations[chosenSpaceIndex]] = currentTurn
+	workingBoard = "".join(workingBoardList)
+	
+	print(workingBoard)
+	
+	if currentTurn == "X":
+	  currentTurn = "0"
+	else:
+	  currentTurn = "X"
 
-#print(availableSpaces)
-#print(allSpaces)
-chosenSpaceIndex = allSpaces.index(requestedSpace)
-
-workingBoardList = list(workingBoard)
-workingBoardList[spaceLocations[chosenSpaceIndex]] = currentTurn
-workingBoard = "".join(workingBoardList)
-
-print(workingBoard)
-
-if currentTurn == "X":
-  currentTurn = "0"
-else:
-  currentTurn = "X"
-
-print(currentTurn)
+#print(currentTurn)
 
 
 
