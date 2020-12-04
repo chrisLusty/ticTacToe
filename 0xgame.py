@@ -50,7 +50,7 @@ Please follow the on screen prompts to play. Have fun!
 # ask who gets to have the first go, noughts or crosses
 firstGoOptions = ["0","X","r"]
 
-pickFirstGoPrompt = "Who goes first? (Enter {}, {} or {} for random): ".format("0","X","r")
+pickFirstGoPrompt = "Who goes first? (Enter {}, {} or {} for random): ".format(*firstGoOptions) # the asterisk unpacks the list stored in firstGoOptions, giving "format" the three separate entries it is looking for. If you just put in the list without unpacking, you get an error.
   
 toStart = takeInput(firstGoOptions, pickFirstGoPrompt)
 
