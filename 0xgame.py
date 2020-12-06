@@ -1,6 +1,7 @@
 #=====================SETUP=========================
 
 import random # used later to make a random decision on which player starts
+import os # used to send a "clear" command to the shell to keep all turns shown on a single board
 
 # function to take a user input, and check that it is one of the permitted options
 def takeInput(inputOptions, inputPrompt):
@@ -54,10 +55,14 @@ pickFirstGoPrompt = "Who goes first? (Enter {}, {} or {} for random): ".format(*
   
 toStart = takeInput(firstGoOptions, pickFirstGoPrompt)
 
+os.system('clear')
+
 # make random choice of start-player if required
 if toStart == "r":
-  toStart = random.choice(["X","0"])
-  print("\n Random choice: player \"{}\" starts.".format(toStart))
+	toStart = random.choice(["X","0"])
+	print("Random choice: player \"{}\" starts.".format(toStart))
+else:
+	print("Player \"{}\" starts.".format(toStart))
 
 print(blankBoard)
 
@@ -76,7 +81,7 @@ timeToEnd = False # initialise a boolean to be used to end the game when a playe
 
 #==============MAIN GAMEPLAY LOOP==================
 
-for turns in range(9):
+while not timeToEnd:
 
 	requestSpacePrompt = "Player {}, please enter a coordinate: ".format(currentTurn)
 	
@@ -91,7 +96,9 @@ for turns in range(9):
 	workingBoardList[spaceLocations[chosenSpaceIndex]] = currentTurn
 	workingBoard = "".join(workingBoardList)
 	
-	print(workingBoard)
+	os.system('clear')
+	
+	print('\n', workingBoard)
 	
 	if currentTurn == "X":
 		
@@ -128,9 +135,16 @@ for turns in range(9):
 				timeToEnd = True
 				break
 	
-	# End programme if either of the players has won
-	if timeToEnd == True:
-		break
+	# If all spaces are taken but no one has won, display draw message and end game
+	if len(availableSpaces) == 0 and not timeToEnd:
+		print("""
+	********************
+	********************
+	*    It's a draw   *
+	********************
+	********************
+				""")
+		timeToEnd = True
 
 #======================END===========================
 
