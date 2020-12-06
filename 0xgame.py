@@ -12,17 +12,17 @@ def takeInput(inputOptions, inputPrompt):
 
 # set out blank playing board  
 blankBoard = """
-      1       2       3
+      A       B       C
           |       |
-A         |       |    
-          |       |
-   -------|-------|-------
-          |       |
-B         |       |    
+1         |       |    
           |       |
    -------|-------|-------
           |       |
-C         |       |    
+2         |       |    
+          |       |
+   -------|-------|-------
+          |       |
+3         |       |    
           |       |
 """
 
@@ -30,7 +30,7 @@ C         |       |
 allSpaces = ["A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"]
 
 # define the locations where we can later put text on the board
-spaceLocations = [51, 59, 67, 142, 150, 158, 233, 241, 249]
+spaceLocations = [51, 142, 233, 59, 150, 241, 67, 158, 249]
 
 # define the various combinations of locations that equate to a win (three in a row)
 winningCombos = [{"A1", "A2", "A3"}, {"B1", "B2", "B3"}, {"C1", "C2", "C3"}, {"A1", "B1", "C1"}, {"A2", "B2", "C2"}, {"A3", "B3", "C3"}, {"A1", "B2", "C3"}, {"A3", "B2", "C1"}]
@@ -55,14 +55,14 @@ pickFirstGoPrompt = "Who goes first? (Enter {}, {} or {} for random): ".format(*
   
 toStart = takeInput(firstGoOptions, pickFirstGoPrompt)
 
-os.system('clear')
+os.system('clear') # sends "clear" command to the shell, to clear previous text on screen
 
 # make random choice of start-player if required
 if toStart == "r":
 	toStart = random.choice(["X","0"])
 	print("Random choice: player \"{}\" starts.".format(toStart))
 else:
-	print("Player \"{}\" starts.".format(toStart))
+	print("OK, player \"{}\" starts.".format(toStart))
 
 print(blankBoard)
 
@@ -77,7 +77,7 @@ ownedBy0 = set() # create blank set to store locations owned by 0
 
 workingBoard = blankBoard # initialise a version of the board to be filled in during game
 
-timeToEnd = False # initialise a boolean to be used to end the game when a player wins
+timeToEnd = False # initialise a boolean used to end game when a player wins or all spaces taken
 
 #==============MAIN GAMEPLAY LOOP==================
 
